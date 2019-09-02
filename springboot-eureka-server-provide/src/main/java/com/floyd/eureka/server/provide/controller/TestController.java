@@ -1,12 +1,12 @@
 package com.floyd.eureka.server.provide.controller;
 
+import com.floyd.eureka.server.provide.domain.UserDto;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -43,5 +43,26 @@ public class TestController {
 		Thread.sleep (sleepTime);
 		
 		return "YES";
+	}
+	
+	/**
+	 *  带请求参数
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping (value = "/req_name")
+	public String  index( @RequestParam String name){
+		return "SUCCESS";
+	}
+	
+	@RequestMapping(value = "/qry_user")
+	public UserDto findUser ( @RequestHeader String name,@RequestHeader Integer age) {
+		return new UserDto (name,age);
+	}
+	
+	
+	@RequestMapping(value = "/qry_inf")
+	public String findInf ( @RequestBody UserDto user ) {
+		return "inf >> ID:"+user.getUserId ()+",name:"+user.getUserName ()+",age:"+user.getAge ();
 	}
 }
