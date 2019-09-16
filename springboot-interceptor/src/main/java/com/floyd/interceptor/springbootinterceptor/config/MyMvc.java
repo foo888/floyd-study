@@ -34,10 +34,12 @@ public class MyMvc implements WebMvcConfigurer{
 		List<String> staticResource = new ArrayList <> ();
 		staticResource.add ("/js/**");
 		staticResource.add ("/views/**");
+		staticResource.add ("/error");
+		staticResource.add ("/error/**");
 		
 		registry.addInterceptor (firstInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);
-		registry.addInterceptor (thirdInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);;
-		registry.addInterceptor (secondInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);;
+		//registry.addInterceptor (thirdInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);;
+		//registry.addInterceptor (secondInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);;
 		
 		
 	}
