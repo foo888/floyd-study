@@ -24,7 +24,7 @@ public class MySecondInterceptor implements HandlerInterceptor {
 	public boolean preHandle (
 		HttpServletRequest request, HttpServletResponse response, Object handler ) throws Exception {
 		
-		logger.info ("2拦截 ：{}" ,request.getRequestURL ());
+		logger.info ("MySecondInterceptor -->请求前拦截 ：{}",request.getRequestURL () );
 		
 		return  true;
 	}
@@ -34,8 +34,11 @@ public class MySecondInterceptor implements HandlerInterceptor {
 		HttpServletRequest request, HttpServletResponse response, Object handler,
 		@Nullable ModelAndView modelAndView ) throws Exception {
 		
-		logger.info ("2执行完成拦截：");
+		logger.info ("MySecondInterceptor --> postHandle: {}" ,request.getRequestURL ());
 		
 	}
-	
+	@Override
+	public void afterCompletion( HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
+		logger.info ("MySecondInterceptor --> after:执行完成");
+	}
 }

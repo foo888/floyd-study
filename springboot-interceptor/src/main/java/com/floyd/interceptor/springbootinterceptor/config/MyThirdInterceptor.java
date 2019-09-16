@@ -24,7 +24,7 @@ public class MyThirdInterceptor implements HandlerInterceptor {
 	public boolean preHandle (
 		HttpServletRequest request, HttpServletResponse response, Object handler ) throws Exception {
 		
-		logger.info ("3拦截 ：{}" ,request.getRequestURL ());
+		logger.info ("MyThirdInterceptor -->请求前拦截 ：{}",request.getRequestURL () );
 		
 		return  true;
 	}
@@ -34,8 +34,12 @@ public class MyThirdInterceptor implements HandlerInterceptor {
 		HttpServletRequest request, HttpServletResponse response, Object handler,
 		@Nullable ModelAndView modelAndView ) throws Exception {
 		
-		
+		logger.info ("MyThirdInterceptor --> postHandle: {}" ,request.getRequestURL ());
 		
 	}
 	
+	@Override
+	public void afterCompletion( HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
+		logger.info ("MyThirdInterceptor --> after:执行完成");
+	}
 }

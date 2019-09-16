@@ -15,13 +15,17 @@ import java.util.List;
  * @author floyd
  * @version : MyMvc.java, v 0.1 2019/9/12 13:45 By floyd Edit  $$
  */
-@Configuration
-//此注解相当于spring mvc  的web.xml 配置文件
-
+@Configuration //此注解相当于spring mvc  的web.xml 配置文件
 public class MyMvc implements WebMvcConfigurer{
 	
 	@Autowired
 	private MyFirstInterceptor  firstInterceptor;
+	
+	@Autowired
+	private MySecondInterceptor secondInterceptor;
+	
+	@Autowired
+	private MyThirdInterceptor  thirdInterceptor;
 	
 	@Override
 	public void  addInterceptors ( InterceptorRegistry registry) {
@@ -29,10 +33,11 @@ public class MyMvc implements WebMvcConfigurer{
 		
 		List<String> staticResource = new ArrayList <> ();
 		staticResource.add ("/js/**");
+		staticResource.add ("/views/**");
 		
 		registry.addInterceptor (firstInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);
-		registry.addInterceptor (new MyThirdInterceptor ()).addPathPatterns ("/**");
-		registry.addInterceptor (new MySecondInterceptor()).addPathPatterns ("/**");
+		registry.addInterceptor (thirdInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);;
+		registry.addInterceptor (secondInterceptor).addPathPatterns ("/**").excludePathPatterns (staticResource);;
 		
 		
 	}
