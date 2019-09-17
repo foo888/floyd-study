@@ -7,7 +7,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.lang.Nullable;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,12 +38,28 @@ public class MyFirstInterceptor implements HandlerInterceptor {
 		logger.info ("请求前拦截 ：{}",request.getRequestURL () );
 		
 		Map map =  request.getParameterMap ();
-		RequestUser ru =  vail.mapToBean (map, RequestUser.class);
-		String msg = vail.validata (ru);
-		if (StringUtils.isNotEmpty(msg)) {
-			logger.info ("验证：{}",msg);
-			throw  new VailException (msg);
+		
+		HandlerMethod method = ( HandlerMethod ) handler;
+		MethodParameter[] params = method.getMethodParameters ();
+		if (params ==  null || params.length == 0 ) {
+			return  true;
 		}
+		MethodParameter parameter = params[0];
+		Class reqClass = parameter.getParameterType ();
+		
+		if (reqClass.newInstance () instanceof  RequestUser) {
+			//Map 转化成 bean
+			RequestUser ru =  vail.mapToBean (map, RequestUser.class);
+			//验证
+			String msg = vail.validata (ru);
+			if (StringUtils.isNotEmpty(msg)) {
+				logger.error ("验证结果：{}",msg);
+				//抛出自定义异常结果
+				throw  new VailException (msg);
+			}
+		}
+		
+		
 		return  true;
 	}
 	

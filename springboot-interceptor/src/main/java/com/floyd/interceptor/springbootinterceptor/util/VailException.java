@@ -9,13 +9,15 @@ package com.floyd.interceptor.springbootinterceptor.util;
 public class VailException extends RuntimeException {
 	
 	
-	private String  message;
-	
-	private String code;
-	
 	public VailException ( String message ) {
-		
 		super (message);
+	}
+	
+	/**
+	 * 构造方法
+	 */
+	public VailException ( String message, Throwable cause ) {
+		super (message, cause);
 	}
 	
 }

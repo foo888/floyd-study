@@ -27,15 +27,6 @@ public class VailUtils {
 	
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	
-	/*public static <T> void  validate(T o) throws IllegalArgumentException {
-		Set<ConstraintViolation<T>> violationSet =  factory.getValidator ().validate (o);
-		if (!CollectionUtils.isEmpty (violationSet)) {
-			ConstraintViolation<T> violation = violationSet.iterator().next();
-			throw new IllegalArgumentException(violation.getMessage());
-		}
-		
-	}*/
-	
 	public static <T> List<String> validateAll( T o) {
 		List<String> errorList = new ArrayList<String> ();
 		Set<ConstraintViolation<T>> violations = factory.getValidator().validate(o);
@@ -67,6 +58,7 @@ public class VailUtils {
 			ConvertUtils.register(new DoubleConverter (null), Double.class);
 			ConvertUtils.register(new IntegerConverter (null), Integer.class);
 			ConvertUtils.register(new DateConverter (null), java.util.Date.class);
+			//此方法会自动给 Integer  Double 为 null 的字段赋值，因此需要ConvertUtils.register处理
 			BeanUtils.populate(bean, map);
 		} catch ( Exception e ){
 			e.printStackTrace ();
@@ -74,4 +66,13 @@ public class VailUtils {
 		
 		return bean;
 	}
+	
+	/*public static <T> void  validate(T o) throws IllegalArgumentException {
+		Set<ConstraintViolation<T>> violationSet =  factory.getValidator ().validate (o);
+		if (!CollectionUtils.isEmpty (violationSet)) {
+			ConstraintViolation<T> violation = violationSet.iterator().next();
+			throw new IllegalArgumentException(violation.getMessage());
+		}
+		
+	}*/
 }
